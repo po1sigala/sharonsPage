@@ -6,3 +6,19 @@ body {
     background-position: center;
     background-size: cover;
 }
+.row {
+    padding: 30px;
+}
+@media screen and (min-width: 300px) {
+    #calendar {
+        width: 500px;
+        height: 300px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #calendar {
+        width: 800px;
+        height: 500px;
+    }
+}
