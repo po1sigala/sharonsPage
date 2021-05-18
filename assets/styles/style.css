@@ -6,9 +6,11 @@ body {
     background-position: center;
     background-size: cover;
 }
-.row {
-    padding: 30px;
+
+.pad {
+    padding-bottom: 30px;
 }
+
 @media screen and (min-width: 280px) {
     #calendar {
         width: 250px;

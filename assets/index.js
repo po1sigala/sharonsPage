@@ -1,13 +1,17 @@
 $(document).ready(() => {
+    //---------------------------FUNCTIONS
+    //send email with a prayer
     let sendPRayer = () => {
         console.log("clicked");
         window.open("mailto:test@example.com?subject=subject&body=body");
     };
+    //go to online bible
     let goToPrayerLine = () => {
+        $("#page").empty();
         console.log("cleared");
+        buildPrayerLine();
         let search;
         let apiKey = "7cac7d6687cb35761206c7bd0db2c010";
-        $("#content").empty();
 
         let queryURL =
             "https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01";
@@ -22,10 +26,43 @@ $(document).ready(() => {
             console.log(response);
         });
     };
-    let findAVerse = (book, chapter, verse) => {
+    let buildPrayerLine = () => {
+        console.log("building card");
+        let card = $("<div>").addClass("card");
+        let body = $("<div>").addClass("card-body");
+        let title = $("<h5>").addClass("card-title").text("Find A passage");
+        // search by  passage
+        let bookSearch = $("<div>").addClass("form-check form-check-inline");
+        let radio = $("<input>")
+            .addClass("form-check-input")
+            .attr("id", "GEN")
+            .attr("value", "Gen")
+            .attr("type", "checkbox");
+        let label = $("<label>")
+            .addClass("form-check-label")
+            .attr("for", "GEN")
+            .text("GEN");
+
+        bookSearch.append(radio);
+        bookSearch.append(label);
+        //search by chapter
+        //search by verse
+
+        body.append(title);
+        body.append(bookSearch);
+        card.append(body);
+        $("#page").append(card);
+    };
+    let getWholeBook = (bookID) => {
         //start with king james version
+
+        //REMOVE THIS
+        bookID = "GEN";
+        //end remove
         const queryURL =
-            "https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01";
+            "https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/books" +
+            bookID +
+            "/chapters";
         $.ajax({
             url: queryURL,
             method: "GET",
@@ -37,11 +74,16 @@ $(document).ready(() => {
             console.log(response);
         });
     };
+    let getChapter = (bookID, chapterNumber) => {};
+
+    //----------------------------------EVENT Listeners
     $("#pray").click(sendPRayer);
     $("#live").click(goToPrayerLine);
 });
 //api key for scriptures 7cac7d6687cb35761206c7bd0db2c010
 //king james bible de4e12af7f28f599-01
+
+//all the books
 /*
 
  "data": [
