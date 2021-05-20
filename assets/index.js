@@ -9,12 +9,11 @@ $(document).ready(() => {
     let goToPrayerLine = () => {
         $("#page").empty();
         console.log("cleared");
-        buildPrayerLine();
-        let search;
+
         let apiKey = "7cac7d6687cb35761206c7bd0db2c010";
 
         let queryURL =
-            "https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01";
+            "https://api.scripture.api.bible/v1/bibles/de4e12af7f28f599-01/books";
         $.ajax({
             url: queryURL,
             method: "GET",
@@ -24,32 +23,71 @@ $(document).ready(() => {
         }).then(function (response) {
             console.log("response is");
             console.log(response);
+            const bookIdArr = [];
+            const bookNameArr = [];
+            response.data.map((book) => {
+                bookIdArr.push(book.id);
+                bookNameArr.push(book.name);
+            });
+            buildPrayerLine(bookIdArr, bookNameArr);
         });
     };
-    let buildPrayerLine = () => {
+    let buildPrayerLine = (books, names) => {
         console.log("building card");
+        console.log(books);
         let card = $("<div>").addClass("card");
         let body = $("<div>").addClass("card-body");
-        let title = $("<h5>").addClass("card-title").text("Find A passage");
-        // search by  passage
-        let bookSearch = $("<div>").addClass("form-check form-check-inline");
-        let radio = $("<input>")
-            .addClass("form-check-input")
-            .attr("id", "GEN")
-            .attr("value", "Gen")
-            .attr("type", "checkbox");
-        let label = $("<label>")
-            .addClass("form-check-label")
-            .attr("for", "GEN")
-            .text("GEN");
-
-        bookSearch.append(radio);
-        bookSearch.append(label);
-        //search by chapter
-        //search by verse
-
+        let title = $("<h5>").addClass("card-title").text("Find A Passage");
+        let accordion = $("<div>")
+            .addClass("accordion")
+            .attr("id", "bookAccordion");
+        //add our acordion with six divisions for each book of the bible
+        for (i = 0; i < 10; i++) {
+            console.log(names);
+            let start = i * 8;
+            let end = start + 7;
+            let id = "accordion" + i;
+            let accordionItem = $("<div>").addClass("accordion-item");
+            let accordionHeader = $("<h2>")
+                .addClass("accordion-header")
+                .attr("id", id);
+            accordionItem.append(accordionHeader);
+            accordion.append(accordionItem);
+            let button = $("<button>")
+                .addClass("accordion-button")
+                .attr("type", "button")
+                .attr("data-bs-toggle", "collapse")
+                .attr("data-bs-target", ["#" + id])
+                .attr("aria-expanded", "false")
+                .attr("aria-controls", ["#" + id])
+                .text("book of " + names[start] + " to " + names[end]);
+            accordionHeader.append(button);
+            accordion.append(accordionItem);
+        }
         body.append(title);
-        body.append(bookSearch);
+        body.append(accordion);
+        books.map((book) => {
+            // search by  passage
+            let bookSearch = $("<div>").addClass(
+                "form-check form-check-inline"
+            );
+            let radio = $("<input>")
+                .addClass("form-check-input")
+                .attr("id", book)
+                .attr("value", book)
+                .attr("type", "checkbox");
+            let label = $("<label>")
+                .addClass("form-check-label")
+                .attr("for", book)
+                .text(book);
+
+            bookSearch.append(radio);
+            bookSearch.append(label);
+            //search by chapter
+            //search by verse
+
+            body.append(bookSearch);
+        });
         card.append(body);
         $("#page").append(card);
     };
@@ -651,3 +689,41 @@ $(document).ready(() => {
 }
 
 */
+
+// const bibleBooks = [
+//     "GEN",
+//     "EXO",
+//     "LEV",
+//     "NUM",
+//     "DEU",
+//     "JOS",
+//     "JDG",
+//     "RUT",
+//     "1SA",
+//     "2SA",
+//     "1KI",
+//     "2KI",
+//     "1CH",
+//     "2CH",
+//     "EZR",
+//     "NEH",
+//     "EST",
+//     "JOB",
+//     "PSA",
+//     "PRO",
+//     "ECC",
+//     "SNG",
+//     "ISA",
+//     "JER",
+//     "LAM",
+//     "EZK",
+//     "DAN",
+//     "HOS",
+//     "JOL",
+//     "AMO",
+//     "OBA",
+//     "JON",
+//     "MIC",
+//     "NAM",
+//     "HAB",
+// ];
