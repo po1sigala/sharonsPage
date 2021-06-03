@@ -3,7 +3,7 @@ $(document).ready(() => {
     //send email with a prayer
     let sendPRayer = () => {
         console.log("clicked");
-        window.open("mailto:test@example.com?subject=subject&body=body");
+        window.open("mailto:alexsigala87@gmail.com?subject=subject&body=body");
     };
     //go to online bible
     let goToPrayerLine = () => {
