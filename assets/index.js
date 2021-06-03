@@ -51,17 +51,33 @@ $(document).ready(() => {
             let accordionHeader = $("<h2>")
                 .addClass("accordion-header")
                 .attr("id", id);
+            //append the header to the accordion item
             accordionItem.append(accordionHeader);
             accordion.append(accordionItem);
             let button = $("<button>")
                 .addClass("accordion-button")
                 .attr("type", "button")
-                .attr("data-bs-toggle", "collapse")
-                .attr("data-bs-target", ["#" + id])
+                .attr("data-toggle", "collapse")
+                .attr("data-target", ["#collapse" + i])
                 .attr("aria-expanded", "false")
-                .attr("aria-controls", ["#" + id])
+                .attr("aria-controls", ["collapse" + i])
                 .text("book of " + names[start] + " to " + names[end]);
             accordionHeader.append(button);
+            //start creating the inner content that is the collapse
+            let accordionCollapse = $("<div>")
+                .attr("id", ["collapse" + i])
+                .addClass("accordion-collapse collapse")
+                .attr("aria-labelledby", id)
+                .attr("data-bs-parent", "#bookAccordion");
+            let innerContent = $("<div>")
+                .addClass("accordion-body")
+
+                .text("this is the " + i + " accordion");
+
+            accordionCollapse.append(innerContent);
+            //append the collapse content to the accordion item
+            accordionItem.append(accordionCollapse);
+
             accordion.append(accordionItem);
         }
         body.append(title);
